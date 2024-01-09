@@ -5,27 +5,98 @@ import (
 	"math"
 	"sort"
 	"strconv"
+	"strings"
 	"unicode"
 )
 
 func main() {
+	a := 200
+	b := &a
+	*b++
+	c := &b
+	**c++ // указатель на указатель
+	fmt.Println(a)
 
-	fmt.Println(myAtoi("42"))
+}
 
-	//fmt.Println(isPalindrome(122))
+func (b bill) format() string {
+	fs := "Bill breakdown:\n"
+	var total float64 = 0
+	for k, v := range b.items {
+		fs += fmt.Sprintf("%v ...$%v", k+":", v)
+		total += v
+	}
+	fs += fmt.Sprintf("%v ...$%0.2f total:", total)
+	return fs
+}
 
-	//fmt.Println(reverse(1534236469))
+func isFascinating(n int) bool {
+	n = n*1000000 + (n*2)*1000 + (n * 3)
+	sum := strconv.Itoa(n)
+	byteSlice := []rune(sum)
+	for i := 0; i < len(byteSlice); i++ {
+		for j := i + 1; j < len(byteSlice); j++ {
+			if byteSlice[i] == byteSlice[j] {
+				return false
+			}
+		}
+	}
+	return true
+}
 
-	//var nums []int = []int{2, 7, 11, 15}
-	//fmt.Println(twoSum(nums, 9))
+func theMaximumAchievableX(num int, t int) int {
+	return num + t*2
+}
 
-	//var nums []int = []int{0, 1, 0, 3, 2, 3}
-	//fmt.Println(lengthOfLIS(nums))
+func divide(dividend int, divisor int) int {
+	dividend /= divisor
+	if dividend > math.MaxInt32 {
+		return math.MaxInt32
+	} else if dividend < math.MinInt32 {
+		return math.MinInt32
+	} else {
+		return dividend
+	}
+}
 
-	//	var nums1 []int = []int{1, 3}
-	//	var nums2 []int = []int{2}
-	//	fmt.Println(findMedianSortedArrays(nums1, nums2))
+func strStr(haystack string, needle string) int {
+	return strings.Index(haystack, needle)
+}
 
+func removeElement(nums []int, val int) int {
+	temp := 0
+	var a []int
+	for _, value := range nums {
+		if value != val {
+			temp++
+			a = append(a, value)
+		}
+	}
+	nums = a
+	return temp
+}
+
+func maxArea(height []int) int {
+	var max int
+	if height[0] < height[1] {
+		max = height[0]
+	} else {
+		max = height[1]
+	}
+	for i := 0; i < len(height); i++ {
+		for j := i + 1; j < len(height); j++ {
+			if height[i] < height[j] {
+				if height[i]*(j-i) > max {
+					max = height[i] * (j - i)
+				}
+			} else {
+				if height[j]*(j-i) > max {
+					max = height[j] * (j - i)
+				}
+			}
+		}
+	}
+	return max
 }
 
 func myAtoi(s string) int {
